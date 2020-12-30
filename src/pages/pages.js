@@ -1,4 +1,4 @@
 import ListData from './listdata/ListData'
 import TambahData from './tambahdata/TambahData'
-
-export {ListData, TambahData};
+import DetailData from './detaildata/DetailData'
+export {ListData, TambahData, DetailData};

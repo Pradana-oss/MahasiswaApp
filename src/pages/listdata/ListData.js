@@ -5,11 +5,22 @@ import CardView from 'react-native-cardview'
 
 const ListData = ({navigation}) => {
     const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState({});
 
     useEffect(() => {
         getData();
     },[]);
 
+    const gotoDetail = (item) => {
+        setSelectedUser(item);
+       navigation.navigate("Detail Data",  {
+           itemId: item.id,
+           itemNama: item.nama,
+           itemAlamat: item.alamat,
+           itemJurusan : item.jurusan,
+           itemImage : item.image
+         });
+   }
 
     const getData = () => {
         axios.get("http://192.168.100.15/backend_CRUD_ReactNative/api/Mahasiswas")
@@ -18,6 +29,23 @@ const ListData = ({navigation}) => {
             console.log("tes : "+JSON.stringify(res.data.data));
             setUsers(mahasiswa);
         })
+        .catch(function (error) {
+            alert(error)
+            console.log(error);
+          });
+    }
+
+    const deleteItem = (item) => {
+        console.log(item)
+        axios.delete(`http://192.168.100.15/backend_CRUD_ReactNative/api/Mahasiswas/delete/${item.id}`)
+        .then(function (response) {
+          alert(JSON.stringify(response))
+          getData();
+        })
+        .catch(function (error) {
+          alert(error)
+          console.log(error);
+        });
     }
 
     return (
@@ -40,6 +68,20 @@ const ListData = ({navigation}) => {
                                 <Text>Alamat Lengkap : {mahasiswa.alamat}</Text>
                                 <Text>Jurusan Lengkap: {mahasiswa.jurusan}</Text>
                             </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <TouchableOpacity onPress={() => Alert.alert('Peringatan', 'Apakah anda ingin menghapus data ini?', 
+                        [
+                            {
+                                text: "Tidak", onPress: () => console.log("Button Tidak")
+                            },
+                            {
+                                text: "Ya", onPress: () => deleteItem(mahasiswa)
+                            },
+                        ])}>
+                            <Text style={styles.delete}>X</Text>
+
+                            </TouchableOpacity>
+                        </View>
                         </View>
                     </CardView>
                        )

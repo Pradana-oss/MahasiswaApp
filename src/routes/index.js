@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack'
-import {ListData, TambahData} from '../pages/pages'
+import {DetailData, ListData, TambahData} from '../pages/pages'
 
 const Stack = createStackNavigator();
 
@@ -9,6 +9,7 @@ const Routes = () => {
        <Stack.Navigator>
            <Stack.Screen name="Tambah Data" component={TambahData}></Stack.Screen>
            <Stack.Screen name="List Data" component={ListData}></Stack.Screen>
+           <Stack.Screen name="Detail Data" component={DetailData}></Stack.Screen>
        </Stack.Navigator>
     );
 }
