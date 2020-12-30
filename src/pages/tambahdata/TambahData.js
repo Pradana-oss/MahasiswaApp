@@ -4,14 +4,20 @@ import axios from 'axios'
 
 
 
-const TambahData = ({navigation}) => {
+const TambahData = ({route, navigation}) => {
         const [id, setId] =useState("");
         const [nama, setNama] =useState("");
         const [alamat, setAlamat] =useState("");
         const [jurusan, setJurusan] =useState("");
+        // const { itemId, itemNama, itemAlamat, itemJurusan, itemImage } = route.params;
+        // const [imagePicture, setimagePicture] =useState(`http://192.168.100.15/backend_CRUD_ReactNative/uploads/${itemImage}`);
     
 
 
+
+        const uploadaja = () => {
+          navigation.navigate("Upload Data")
+        }
         const GoTo = () => {
             navigation.navigate("List Data");
         }
@@ -20,6 +26,7 @@ const TambahData = ({navigation}) => {
             data.append('nama', nama);
             data.append('alamat', alamat);
             data.append('jurusan', jurusan);
+            // data.append('image', imagePicture);
             axios.post("http://192.168.100.15/backend_CRUD_ReactNative/api/Mahasiswas/tambah", data, {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -43,6 +50,9 @@ const TambahData = ({navigation}) => {
                 <TextInput placeholder="Masukkan Nama" style={{borderWidth: 1, marginBottom: 5}} value={nama} onChangeText={(value) => setNama(value)}></TextInput>
                 <TextInput placeholder="Masukkan alamat" style={{borderWidth: 1, marginBottom: 5}}value={alamat} onChangeText={(value) => setAlamat(value)}></TextInput>
                 <TextInput placeholder="Masukkan Jurusan" style={{borderWidth: 1, marginBottom: 5}}value={jurusan} onChangeText={(value) => setJurusan(value)}></TextInput>
+                <TouchableHighlight onPress={uploadaja} style={styles.btnSimpan}>
+                <Text style={styles.textBtn} >Upload Gambar</Text>
+                </TouchableHighlight>
                 <TouchableHighlight onPress={simpan} style={styles.btnSimpan}>
                 <Text style={styles.textBtn} >Simpan</Text>
                 </TouchableHighlight>

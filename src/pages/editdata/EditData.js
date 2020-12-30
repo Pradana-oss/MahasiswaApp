@@ -27,6 +27,7 @@ const EditData = ({ route, navigation }) => {
     data.append('nama', nama);
     data.append('alamat', alamat);
     data.append('jurusan', jurusan);
+  
     
     axios.post("http://192.168.100.15/backend_CRUD_ReactNative/api/mahasiswas/update", data, {
         headers: {
@@ -65,7 +66,7 @@ const getData = () => {
       {users.map((mahasiswa) => {
                 return (
                   <View>
-                  <TextInput
+                  <TextInput 
                   style={{ borderWidth: 1, marginBottom: 5 }}
                   value={mahasiswa.id}
                   key={mahasiswa.id}
@@ -73,19 +74,19 @@ const getData = () => {
                 >
                   
                 </TextInput>
-                <TextInput
+                <TextInput placeholder="Nama"
                   style={{ borderWidth: 1, marginBottom: 5 }}
                   onChangeText={(text) => setNama(text)}
                   >
                    {mahasiswa.nama}
                 </TextInput>
-                <TextInput
+                <TextInput placeholder="Alamat"
                   style={{ borderWidth: 1, marginBottom: 5 }}
                   onChangeText={(text) => setAlamat(text)}
                   >
                   {mahasiswa.alamat}
                 </TextInput>
-                <TextInput
+                <TextInput placeholder="Jurusan"
                   style={{ borderWidth: 1, marginBottom: 5 }}
                   onChangeText={(text) => setJurusan(text)}
                   >
