@@ -3,30 +3,49 @@ import {View, Text, ScrollView, Alert, StyleSheet, Image, TouchableOpacity} from
 import axios from 'axios'
 import CardView from 'react-native-cardview'
 
+
 const ListData = ({navigation}) => {
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState({});
-
+    
     useEffect(() => {
         getData();
     },[]);
 
     const gotoDetail = (item) => {
+         setSelectedUser(item);
+        navigation.navigate("Detail Data",  {
+            itemId: item.id,
+            itemNama: item.nama,
+            itemAlamat: item.alamat,
+            itemJurusan : item.jurusan,
+            itemImage : item.image
+          });
+    }
+
+    const goToEdit = (item) => {
+        console.log( "select item" + item)
         setSelectedUser(item);
-       navigation.navigate("Detail Data",  {
-           itemId: item.id,
-           itemNama: item.nama,
-           itemAlamat: item.alamat,
-           itemJurusan : item.jurusan,
-           itemImage : item.image
-         });
-   }
+        navigation.navigate("Edit Data",  {
+            itemId: item.id,
+            itemNama: item.nama,
+            itemAlamat: item.alamat,
+            itemJurusan : item.jurusan,
+            itemImage : item.image
+          });
+        // setId(item.id);
+        // setNama(item.nama);
+        // setAlamat(item.alamat);
+        // setJurusan(item.jurusan);
+        // setButton("Update");
+    }
+    
 
     const getData = () => {
-        axios.get("http://192.168.100.15/backend_CRUD_ReactNative/api/Mahasiswas")
+        axios.get("http://192.168.100.15/backend_CRUD_ReactNative/api/Mahasiswas/")
         .then(res => {
             const mahasiswa= res.data.data;
-            console.log("tes : "+JSON.stringify(res.data.data));
+            console.log("tes : "+JSON.stringify(mahasiswa));
             setUsers(mahasiswa);
         })
         .catch(function (error) {
@@ -62,13 +81,20 @@ const ListData = ({navigation}) => {
                             style={{width: 100, height: 100, marginLeft: 20, marginTop:10}}
                             source={{uri: `http://192.168.100.15/backend_CRUD_ReactNative/uploads/${mahasiswa.image}`}}/>
                             <View style={styles.desc}>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={() => gotoDetail(mahasiswa)}>
                                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Nama Lengkap : {mahasiswa.nama}</Text>
                                 </TouchableOpacity>
                                 <Text>Alamat Lengkap : {mahasiswa.alamat}</Text>
                                 <Text>Jurusan Lengkap: {mahasiswa.jurusan}</Text>
+                               
                             </View>
-                            <View style={{flexDirection: 'row'}}>
+                            
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <TouchableOpacity onPress={()=> goToEdit(mahasiswa)}>
+                                <Text style={{fontSize: 20, fontWeight: 'bold', marginLeft: 150}}>UBAH</Text>
+                            </TouchableOpacity>
+
                                 <TouchableOpacity onPress={() => Alert.alert('Peringatan', 'Apakah anda ingin menghapus data ini?', 
                         [
                             {
@@ -78,11 +104,10 @@ const ListData = ({navigation}) => {
                                 text: "Ya", onPress: () => deleteItem(mahasiswa)
                             },
                         ])}>
-                            <Text style={styles.delete}>X</Text>
+                            <Text style={styles.delete}>HAPUS</Text>
 
                             </TouchableOpacity>
-                        </View>
-                        </View>
+                                </View>
                     </CardView>
                        )
                 })}
@@ -107,7 +132,8 @@ const styles = StyleSheet.create({
           fontSize: 20,
           fontWeight : 'bold',
           color : 'red',
-          marginRight:10
+          marginRight:10,
+          marginLeft: 20
       },
       itemContainer : {
           flexDirection:'row',

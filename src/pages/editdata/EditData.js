@@ -22,23 +22,13 @@ const EditData = ({ route, navigation }) => {
   const [users, setUsers] = useState([]);
   
   const update  =() => {
-    let file = {
-        uri: imagePicture, 
-        type: 'image/jpg', 
-        name: imagePicture
-};
     const data = new FormData();
     data.append('id', itemId)
     data.append('nama', nama);
     data.append('alamat', alamat);
     data.append('jurusan', jurusan);
-    data.append('image', file);
-
-    console.log("ini form data :", data);
-    console.log("ini form data :", file.uri);
-
     
-    axios.post("http://192.168.100.15/backend_CRUD_ReactNative/api/Mahasiswas/update", data, {
+    axios.post("http://192.168.100.15/backend_CRUD_ReactNative/api/mahasiswas/update", data, {
         headers: {
             'content-type': 'multipart/form-data'
         }
@@ -58,7 +48,7 @@ const EditData = ({ route, navigation }) => {
 },[]);
 
 const getData = () => {
-  axios.get(`http://192.168.100.15/backend_CRUD_ReactNative/Mahasiswas/getId/${itemId}`)
+  axios.get(`http://192.168.100.15/backend_CRUD_ReactNative/api/mahasiswas/getId/${itemId}`)
   .then(res => {
       const mahasiswa= res.data.data;
       console.log("tes : "+JSON.stringify(res.data.data));
